@@ -24,12 +24,14 @@ function color(number, x, y){
     resArray = genNew(x, y)
     x = resArray[0]
     y = resArray[1]
+    alert('resArray: ' + resArray)
     for(i=0; i<number; i++){
         resArray = genNew(x, y)
+        alert('resArray: ' + resArray)   
         x = resArray[0]
         y = resArray[1]
     }
-    alert('The final number is: ' + x + y + "i")
+    alert('The final number is: ' + x + '+' + y + "i")
 }
     
 function drawIt(width, height, iterNum){
