@@ -14,8 +14,7 @@ var a = 1
 var b = 1
     
 function genNew(x, y){
-    resArray = [x, y]
-    resArray = multiply(resArray[0],resArray[1],resArray[0],resArray[1])
+    resArray = [(x^2)-(y^2), 2*y*x]
     resArray[0] += a
     resArray[1] += b
     return resArray
