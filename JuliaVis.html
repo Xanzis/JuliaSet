@@ -9,9 +9,8 @@ function do_rectangle(centerX, centerY, length, height, color){
     //ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
     ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
 }
-
-var a = 1
-var b = 1
+var a = 0.1
+var b = 0.1
     
 function genNew(x, y){
     resArray = [(x*x)-(y*y), 2*y*x]
@@ -27,10 +26,17 @@ function color(number, x, y){
  //   alert('resArray: ' + resArray)
     for(i=0; i<number; i++){
         resArray = genNew(x, y)
+        if((resArray[0]*resArray[0])+(resArray[1]*resArray[1]) >= 100){
+            return true
+        }
  //       alert('resArray: ' + resArray)   
         x = resArray[0]
         y = resArray[1]
     }
+    if((resArray[0]*resArray[0])+(resArray[1]*resArray[1]) >= 1){
+        return true
+    }
+    return false
  //   alert('The final number is: ' + x + '+' + y + "i")
 }
     
@@ -40,7 +46,9 @@ function drawIt(width, height, iterNum){
     var heightOffset = Math.floor(height/2)
     for(var x = 0; x<width; x++){
         for(var y = 0; y<height; y++){
-            do_rectangle(x, y, 1, 1, color(iterNum,(x - widthOffset)/100,(y - heightOffset)/100))
+            if(color(iterNum,(x - widthOffset)/100,(y - heightOffset)/100)){
+                do_rectangle(x, y, 1, 1)
+            }
         }
     }
     
