@@ -1,7 +1,8 @@
 <html>
 <head>
+
 <script>
-    
+
 function do_rectangle(centerX, centerY, length, height, color){
     var c=document.getElementById("myCanvas");
     var ctx=c.getContext("2d");
@@ -12,9 +13,11 @@ function do_rectangle(centerX, centerY, length, height, color){
 
     
 function genNew(x, y){
-    resArray = [(x*x)-(y*y), 2*y*x]
+    resArray = [(x*x)-(y*y), 2*x*y]
     resArray[0] += a
     resArray[1] += b
+    resArray[0] *= aFact
+    resArray[1] *= bFact
     return resArray
 }
     
@@ -40,19 +43,24 @@ function color(number, x, y){
 }
     
 function drawIt(width, height, iterNum){
+    myCanvas.width+=0
     a = Number(document.getElementById("aval").value)
     b = Number(document.getElementById("bval").value)
+    aFact = Number(document.getElementById("aFact").value)
+    bFact = Number(document.getElementById("bFact").value)
+    zoom = Number(document.getElementById("zoom").value)
+    yShift = Number(document.getElementById("yShift").value)
+    xShift = Number(document.getElementById("xShift").value)
     var newNums = new Array(x,y)
     var widthOffset = Math.floor(width/2)
     var heightOffset = Math.floor(height/2)
     for(var x = 0; x<width; x++){
         for(var y = 0; y<height; y++){
-            if(color(iterNum,(x - widthOffset)/100,(y - heightOffset)/100)){
+            if(color(iterNum,((x - widthOffset)/zoom) + xShift,((y - heightOffset)/zoom) + yShift)){
                 do_rectangle(x, y, 1, 1)
             }
         }
     }
-    
 }    
     
 function foo(){
@@ -65,18 +73,35 @@ function foo(){
 Enter your rectangular imaginary number below:
 <br>
 
-Real part: <input type="number" id="aval" size=4>&nbsp;
-Imaginary part: <input type="number" id="bval" size=4> i
+Real part: <input type="text" id="aval" size=4>&nbsp;
+Imaginary part: <input type="text" id="bval" size=4> i
  
 <br>
 
-<button type='button' onclick="drawIt(800,600,10)">Graph Julia Set!</button>
+Real part Factor: <input type="text" id="aFact" size=4>&nbsp;
+Imaginary part Factor: <input type="text" id="bFact" size=4> i
+
+<br>
+
+Zoom (1-1000): <input type="text" id="zoom" size=4>&nbsp;
+
+<br>
+
+yShift: <input type="text" id="yShift" size=4>&nbsp;
+
+<br>
+
+xShift: <input type="text" id="xShift" size=4>&nbsp;
+
+<br>
+
+<button type='button' onclick="drawIt(1000,1000,10)">Graph Julia Set!</button>
 
 <br>
 
 </p>
     
-<canvas id="myCanvas" width="800" height="600" style='border: solid 1px'>
+<canvas id="myCanvas" width="1000" height="1000" style='border: solid 1px'>
 </canvas>    
     
 </body>
