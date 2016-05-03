@@ -1,0 +1,115 @@
+<html>
+<head>
+
+<script>
+    
+function do_rectangle(centerX, centerY, length, height, color){
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+    ctx.fillStyle=color;
+    //ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
+    ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
+}
+    
+function genNew(x, y){
+    resArray = [(x*x)-(y*y), 2*x*y]
+    resArray[0] += a
+    resArray[1] += b
+    resArray[0] *= aFact
+    resArray[1] *= bFact
+    return resArray
+}
+    
+function color(number, x, y){
+    resArray = genNew(x, y)
+    x = resArray[0]
+    y = resArray[1]
+ //   alert('resArray: ' + resArray)
+    for(i=0; i<number; i++){
+        resArray = genNew(x, y)
+        if((resArray[0]*resArray[0])+(resArray[1]*resArray[1]) >= 100){
+            return i*1000000
+        }
+ //       alert('resArray: ' + resArray)   
+        x = resArray[0]
+        y = resArray[1]
+    }
+    if((resArray[0]*resArray[0])+(resArray[1]*resArray[1]) >= 1){
+        return 10000000
+    }
+    return 0
+ //   alert('The final number is: ' + x + '+' + y + "i")
+}
+    
+function decToHex(decimal){
+    //console.log(decimal)
+    //console.log('#'.concat(decimal.toString(16).toUpperCase()))
+    return '#'.concat(decimal.toString(16).toUpperCase())
+    
+}
+    
+function drawIt(width, height, iterNum){
+    myCanvas.width+=0
+    a = Number(document.getElementById("aval").value)
+    b = Number(document.getElementById("bval").value)
+    aFact = Number(document.getElementById("aFact").value)
+    bFact = Number(document.getElementById("bFact").value)
+    zoom = Number(document.getElementById("zoom").value)
+    yShift = Number(document.getElementById("yShift").value)
+    xShift = Number(document.getElementById("xShift").value)
+    
+    var newNums = new Array(x,y)
+    var widthOffset = Math.floor(width/2)
+    var heightOffset = Math.floor(height/2)
+    for(var x = 0; x<width; x++){
+        for(var y = 0; y<height; y++){
+            var colored = decToHex(color(iterNum,((x - widthOffset)/zoom) + xShift,((y - heightOffset)/zoom) + yShift))
+            //console.log(colored)
+            do_rectangle(x, y, 1, 1, colored)
+        }
+    }
+}    
+    
+function foo(){
+    alert("Hello")
+}
+    
+</script>
+</head>
+<body>
+Enter your rectangular imaginary number below:
+<br>
+
+Real part: <input type="text" id="aval" size=4 value=-0.8>&nbsp;
+Imaginary part: <input type="text" id="bval" size=4 value=0.156> i
+ 
+<br>
+
+Real part Factor: <input type="text" id="aFact" size=4 value=1>&nbsp;
+Imaginary part Factor: <input type="text" id="bFact" size=4 value=1> i
+
+<br>
+
+Zoom (1-1000): <input type="text" id="zoom" size=4 value=300>&nbsp;
+
+<br>
+
+yShift: <input type="text" id="yShift" size=4 value=0>&nbsp;
+
+<br>
+
+xShift: <input type="text" id="xShift" size=4 value=0>&nbsp;
+
+<br>
+
+<button type='button' onclick="drawIt(1000,1000,10)">Graph Julia Set!</button>
+
+<br>
+
+</p>
+    
+<canvas id="myCanvas" width="1000" height="1000" style='border: solid 1px'>
+</canvas>    
+    
+</body>
+</html>
