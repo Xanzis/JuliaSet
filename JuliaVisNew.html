@@ -29,11 +29,13 @@ function genNew(x, y){
 }
     
 function color(number, x, y){
+    console.log(x)
+    console.log(y)
     resArray = genNew(x, y)
     x = resArray[0]
-    console.log(x)
+    //console.log(x)
     y = resArray[1]
-    console.log(y)
+    //console.log(y)
  //   alert('resArray: ' + resArray)
     for(i=0; i<number; i++){
         if((resArray[0]*resArray[0])+(resArray[1]*resArray[1]) >= 16777215){
@@ -65,7 +67,7 @@ function drawIt(width, height, iterNum){
     for(var x = 0; x<width; x++){
         //console.log(x)
         for(var y = 0; y<height; y++){
-            do_rectangle(x, y, 1, 1, color(10,(x - (width/2) + xShift)/zoom,(y - (height/2) + yShift)/zoom))
+            do_rectangle(x, y, 1, 1, color(1,(x - (width/2)/zoom,(y - (height/2))/zoom)
         }
     }
 }    
