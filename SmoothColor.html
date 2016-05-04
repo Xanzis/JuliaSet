@@ -89,8 +89,8 @@ function foo(){
 Enter your rectangular imaginary number below:
 <br>
 
-Real part: <input type="text" id="aval" size=4 value=0.4>&nbsp;
-Imaginary part: <input type="text" id="bval" size=4 value=0> i
+Real part: <input type="text" id="aval" size=4 value=-0.8>&nbsp;
+Imaginary part: <input type="text" id="bval" size=4 value=0.156> i
  
 <br>
 
@@ -99,7 +99,7 @@ Imaginary part Factor: <input type="text" id="bFact" size=4 value=1> i
 
 <br>
 
-Zoom (1-1000): <input type="text" id="zoom" size=4 value=300>&nbsp;
+Zoom (1-1000): <input type="text" id="zoom" size=4 value=3000>&nbsp;
 
 <br>
 
@@ -111,13 +111,13 @@ xShift: <input type="text" id="xShift" size=4 value=0>&nbsp;
 
 <br>
 
-<button type='button' onclick="drawIt(1000,1000,10)">Graph Julia Set!</button>
+<button type='button' onclick="drawIt(10000,10000,100)">Graph Julia Set!</button>
 
 <br>
 
 </p>
     
-<canvas id="myCanvas" width="1000" height="1000" style='border: solid 1px'>
+<canvas id="myCanvas" width="10000" height="10000" style='border: solid 1px'>
 </canvas>    
     
 </body>
