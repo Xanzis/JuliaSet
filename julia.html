@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <base href='http://galactec.tk/' target='_self'>
+    <title>Julia Sets</title>
+    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+    <meta name='description' content='' />
+    <meta name='keywords' content='' />
+    <!--[if lte IE 8]><script src='js/html5shiv.js'></script><![endif]-->
+    <script src='js/jquery.min.js'></script>
+    <script src='js/skel.min.js'></script>
+    <script src='js/skel-layers.min.js'></script>
+    <script src='js/init.js'></script>
+    <noscript>
+        <link rel='stylesheet' href='css/skel.css' />
+        <link rel='stylesheet' href='css/style.css' />
+        <link rel='stylesheet' href='css/style-xlarge.css' />
+    </noscript>
+    <link rel='icon' id='favicon' href='GalactecQuazar.ico'>
+    <style>
+        #specialButton {
+            position: relative;
+            top: 2em;
+            left: 0.25em;
+        }
+        #myCanvas {
+            position: relative;
+            top: 4em;
+        }
+        #div1 {
+            position: relative;
+            top: 2em;
+            left: 7em;
+        }
+        #div2 {
+            position: relative;
+            top: 2em;
+            left: 7em;
+        }
+        #footer {
+            position: relative;
+            top: 4em;
+        }
+    </style>
+
+    <script>
+        function do_rectangle(centerX, centerY, length, height, color) {
+            var c = document.getElementById('myCanvas');
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = color;
+            //ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
+            ctx.fillRect(centerX - (length / 2), centerY - (height / 2), length, height);
+        }
+
+        function genNew(x, y) {
+            resArray = [(x * x) - (y * y), 2 * x * y]
+            resArray[0] += a
+            resArray[1] += b
+            resArray[0] *= aFact
+            resArray[1] *= bFact
+            return resArray
+        }
+
+        function color(number, x, y) {
+            resArray = genNew(x, y)
+            x = resArray[0]
+            y = resArray[1]
+                //   alert('resArray: ' + resArray)
+            for (i = 0; i < number; i++) {
+                resArray = genNew(x, y)
+                if ((resArray[0] * resArray[0]) + (resArray[1] * resArray[1]) >= 100) {
+                    return true
+                }
+                //       alert('resArray: ' + resArray)
+                x = resArray[0]
+                y = resArray[1]
+            }
+            if ((resArray[0] * resArray[0]) + (resArray[1] * resArray[1]) >= 1) {
+                return true
+            }
+            return false
+                //   alert('The final number is: ' + x + '+' + y + 'i')
+        }
+
+        function drawIt(width, height, iterNum) {
+            myCanvas.width += 0
+            a = Number(document.getElementById('aval').value)
+            b = Number(document.getElementById('bval').value)
+            aFact = Number(document.getElementById('aFact').value)
+            bFact = Number(document.getElementById('bFact').value)
+            zoom = Number(document.getElementById('zoom').value)
+            yShift = Number(document.getElementById('yShift').value)
+            xShift = Number(document.getElementById('xShift').value)
+            var newNums = new Array(x, y)
+            var widthOffset = Math.floor(width / 2)
+            var heightOffset = Math.floor(height / 2)
+            for (var x = 0; x < width; x++) {
+                for (var y = 0; y < height; y++) {
+                    if (color(iterNum, ((x - widthOffset) / zoom) + xShift, ((y - heightOffset) / zoom) + yShift)) {
+                        do_rectangle(x, y, 1, 1)
+                    }
+                }
+            }
+        }
+
+        function foo() {
+            alert('Hello')
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+      <header id="header" class="skel-layers-fixed">
+        <h1><a href="#">Galactec</a></h1>
+        <nav id="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a target="_blank" href="http:\\www.aruninc.com">Prisoner's Dilemma</a></li>
+            <li><a href="incompleteProjects.html">Developing Projects</a></li>
+            <li><a href="Julia/julia.html">Julia Sets</a></li>
+            <li><a href="EcoEquate.html">EcoEquate</a></li>
+            <li><a target="_blank" href="Blog.html" class="button special">Blog Updates</a></li>
+            <li><a href="mailto:galacteccorp@gmail.com?" class="button special">Contact Us</a></li>
+          </ul>
+        </nav>
+      </header>
+        <div class='row' id='div1'>
+
+            <div class='col-md-6'>Real part:
+                <input type='text' style='width: 200px' id='aval' size=4>
+            </div>
+            <div class='col-md-6'>Imaginary part:
+                <input type='text' style='width: 200px' id='bval' size=4>
+            </div>
+
+            <div class='col-md-6'>Real part Factor:
+                <input type='text' style='width: 200px' id='aFact' size=4>
+            </div>
+            <div class='col-md-6'>Imaginary part Factor:
+                <input type='text' style='width: 200px' id='bFact' size=4>
+            </div>
+
+        </div>
+        <div class='row' id='div2'>
+
+            <div class='col-md-6'>x Zoom (1-1000):
+                <input type='text' style='width: 200px' id='zoom' size=4>
+            </div>
+            <div class='col-md-6'>yShift:
+                <input type='text' style='width: 200px' id='yShift' size=4>
+            </div>
+            <div class='col-md-6'>xShift:
+                <input type='text' style='width: 200px' id='xShift' size=4>
+            </div>
+            <div class='col-md-6'>
+                <button type='button' onclick='drawIt(1000,1000,10)' class='button special' id='specialButton'>Graph Julia Set!</button>
+            </div>
+
+        </div>
+
+        <canvas id='myCanvas' width='1000' height='1000' style='border: solid 1px;'>
+        </canvas>
+    </center>
+</body>
+<footer id='footer'>
+    <div class='container'>
+        <div class='row double'>
+            <div class='6u'>
+                <div class='row collapse-at-2'>
+                    <div class='6u'>
+                        <h3>Resources</h3>
+                        <ul class='alt'>
+                            <li><a href='http://www.stackoverflow.com'>Stack Overflow</a></li>
+                            <li><a href='http://www.arxiv.org'>ArXiv</a></li>
+                            <li><a href='http://chemistry.ucdavis.edu'>UC Davis Chemistry Department</a></li>
+                            <li><a href='#'>SIMBAD Astronomical Database</a></li>
+                        </ul>
+                    </div>
+                    <div class='6u'>
+                        <br>
+                        <br>
+                        <ul class='alt'>
+                            <li><a href='https://ned.ipac.caltech.edu/'>NASA/IPAC Extragalactic Database</a></li>
+                            <li><a href='http://nar.oxfordjournals.org/content/43/D1/D1.abstract'>Nucleic Acids Research</a></li>
+                            <li><a href='https://www-nds.iaea.org/exfor/exfor.htm'>EXFOR: Experimental Nuclear Reaction Data</a></li>
+                            <li><a href='http://www.xkcd.com'>XKCD</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class='6u'>
+                <h2>Our Mission</h2>
+                <p>Galactec Corporation was founded on a single ideal: creating good, honest science to better the world. It is our mission to explore, discover, to expand the boundaries of what we know, to lead science until there is no more that it can do.</p>
+            </div>
+            <div class='6u'>
+                <h2>Join Our Company</h2>
+                <p>In order to join the Galactec Corporation, you must satisfy 3 conditions: 1: you must be confirmed by all reigning members of the Galactec Board, 2: you must actively perform science in your free time, and 3: you must pledge science your never-ending love. Contact us to begin your registration today!</p>
+            </div>
+        </div>
+        <ul class='copyright'>
+            <li>&copy; Galactec. All rights reserved.</li>
+            <li>Design: <a href='http://templated.co'>TEMPLATED</a></li>
+            <li>Images: <a href='http://unsplash.com'>Unsplash</a></li>
+        </ul>
+    </div>
+</footer>
+
+</html>
