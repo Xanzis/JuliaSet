@@ -70,7 +70,7 @@ function color(number, x, y){
         mag = Math.sqrt(resArray[0]*resArray[0])+(resArray[1]*resArray[1])
         if(mag >= 16777215){
             return 16777215
-        }
+        }   
  //       alert('resArray: ' + resArray)   
         x = resArray[0]
         y = resArray[1]
@@ -87,7 +87,16 @@ function decToHex(decimal){
     //console.log(decimal)
     //console.log('#'.concat(decimal.toString(16).toUpperCase()))
     return '#'.concat(bufferSix(decimal.toString(16).toUpperCase()))
+}
     
+function decToRGB(decimal){
+    red = decimal&0xf
+    decimal = decimal/256
+    green = decimal&0xf
+    decimal = decimal/256
+    blue = decimal&0xf
+    
+    return([red, green, blue, 0])
 }
     
 function bufferSix(num){
@@ -96,9 +105,11 @@ function bufferSix(num){
 	}
 	return num
 }
-
+    
 function drawIt(width, height, iterNum){
     myCanvas.width+=0
+    var context = myCanvas.getContext('2d');
+    var pixelData = context.getImageData(0, 0, myCanvas.width, myCanvas.height);
     a = Number(document.getElementById("aval").value)
     b = Number(document.getElementById("bval").value)
     aFact = Number(document.getElementById("aFact").value)
@@ -112,11 +123,14 @@ function drawIt(width, height, iterNum){
     var heightOffset = Math.floor(height/2)
     for(var x = 0; x<width; x++){
         for(var y = 0; y<height; y++){
-            var colored = decToHex(color(iterNum,((x - widthOffset)/zoom) + xShift,((y - heightOffset)/zoom) + yShift))
-            //console.log(colored)
-            do_rectangle(x, y, 1, 1, colored)
+            var colored = decToRGB(color(iterNum,((x - widthOffset)/zoom) + xShift,((y - heightOffset)/zoom) + yShift))
+                pixelData.data[x*myCanvas.height + y] = colored[0]
+                pixelData.data[x*myCanvas.height + y + 1] = colored[1]
+                pixelData.data[x*myCanvas.height + y + 2] = colored[2]
+                pixelData.data[x*myCanvas.height + y + 3] = colored[3]
         }
     }
+    context.putImageData(pixelData, 0, 0)
 }    
     
 function foo(){
@@ -144,38 +158,38 @@ function foo(){
         <div class='row' id='div1'>
 
             <div class='col-md-6'>Real part:
-                <input type='text' style='width: 200px' id='aval' size=4>
+                <input type='text' style='width: 200px' id='aval' size=4 value=-0.8>
             </div>
             <div class='col-md-6'>Imaginary part:
-                <input type='text' style='width: 200px' id='bval' size=4>
+                <input type='text' style='width: 200px' id='bval' size=4 value=.156>
             </div>
 
             <div class='col-md-6'>Real part Factor:
-                <input type='text' style='width: 200px' id='aFact' size=4>
+                <input type='text' style='width: 200px' id='aFact' size=4 value=1>
             </div>
             <div class='col-md-6'>Imaginary part Factor:
-                <input type='text' style='width: 200px' id='bFact' size=4>
+                <input type='text' style='width: 200px' id='bFact' size=4 value=1>
             </div>
 
         </div>
         <div class='row' id='div2'>
 
             <div class='col-md-6'>x Zoom (1-1000):
-                <input type='text' style='width: 200px' id='zoom' size=4>
+                <input type='text' style='width: 200px' id='zoom' size=4 value=3000>
             </div>
             <div class='col-md-6'>yShift:
-                <input type='text' style='width: 200px' id='yShift' size=4>
+                <input type='text' style='width: 200px' id='yShift' size=4 value=0>
             </div>
             <div class='col-md-6'>xShift:
-                <input type='text' style='width: 200px' id='xShift' size=4>
+                <input type='text' style='width: 200px' id='xShift' size=4 value=0>
             </div>
             <div class='col-md-6'>
-                <button type='button' onclick='drawIt(1000,1000,10)' class='button special' id='specialButton'>Graph Julia Set!</button>
+                <button type='button' onclick='drawIt(5000,5000,100)' class='button special' id='specialButton'>Graph Julia Set!</button>
             </div>
 
         </div>
 
-        <canvas id='myCanvas' width='1000' height='1000' style='border: solid 1px;'>
+        <canvas id='myCanvas' width='5000' height='5000' style='border: solid 1px;'>
         </canvas>
     </center>
 </body>
