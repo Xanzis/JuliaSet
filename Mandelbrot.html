@@ -1,0 +1,108 @@
+<html>
+<head>
+
+<script>
+    
+function do_rectangle(centerX, centerY, length, height, color){
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+    ctx.fillStyle=color;
+    //ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
+    ctx.fillRect(centerX-(length/2),centerY-(height/2),length,height);
+}
+    
+function genNew(x, y, a, b){
+    resArray = [(a*a)-(b*b), 2*a*b]
+    resArray[0] += x
+    resArray[1] += y
+    return resArray
+}
+    
+function color(number, x, y){
+    resArray = genNew(x, y, 0, 0)
+    a = resArray[0]
+    b = resArray[1]
+ //   alert('resArray: ' + resArray)
+    for(i=0; i<number; i++){
+        resArray = genNew(x, y, a, b)
+        mag = Math.sqrt(resArray[0]*resArray[0])+(resArray[1]*resArray[1])
+        if(mag >= 16777215){
+            return 16777215
+        }
+ //       alert('resArray: ' + resArray)   
+        a = resArray[0]
+        b = resArray[1]
+    }
+    mag = Math.sqrt(resArray[0]*resArray[0])+(resArray[1]*resArray[1])
+    if(mag >= 1){
+        return Math.floor(mag)
+    }
+    return 0
+ //   alert('The final number is: ' + x + '+' + y + "i")
+}
+    
+function decToHex(decimal){
+    //console.log(decimal)
+    //console.log('#'.concat(decimal.toString(16).toUpperCase()))
+    return '#'.concat(bufferSix(decimal.toString(16).toUpperCase()))
+    
+}
+    
+function bufferSix(num){
+	while(num.length < 6){
+		num = "0".concat(num)
+	}
+	return num
+}
+
+function drawIt(width, height, iterNum){
+    myCanvas.width+=0
+    zoom = Number(document.getElementById("zoom").value)
+    yShift = Number(document.getElementById("yShift").value)
+    xShift = Number(document.getElementById("xShift").value)
+    
+    var newNums = new Array(x,y)
+    var widthOffset = Math.floor(width/2)
+    var heightOffset = Math.floor(height/2)
+    for(var x = 0; x<width; x++){
+        for(var y = 0; y<height; y++){
+            var colored = decToHex(color(iterNum,((x - widthOffset)/zoom) + xShift,((y - heightOffset)/zoom) + yShift))
+            //console.log(colored)
+            do_rectangle(x, y, 1, 1, colored)
+        }
+    }
+}    
+    
+function foo(){
+    alert("Hello")
+}
+    
+</script>
+</head>
+<body>
+
+<br>
+
+Zoom (1-1000): <input type="text" id="zoom" size=4 value=3000>&nbsp;
+
+<br>
+
+yShift: <input type="text" id="yShift" size=4 value=0>&nbsp;
+
+<br>
+
+xShift: <input type="text" id="xShift" size=4 value=0>&nbsp;
+
+<br>
+
+<button type='button' onclick="drawIt(10000,10000,100)">Graph Julia Set!</button>
+
+<br>
+
+</p>
+    
+<canvas id="myCanvas" width="10000" height="10000" style='border: solid 1px'>
+</canvas>    
+    
+</body>
+</html>
